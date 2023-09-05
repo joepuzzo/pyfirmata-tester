@@ -3,7 +3,7 @@ import time
 
 # Initialize the board
 # Replace '/dev/ttyUSB0' with the appropriate port for your system
-board = Arduino('/dev/tty.usbmodem21401')
+board = Arduino('/dev/tty.usbmodem21301')
 
 # Define a pin object for digital pin 13
 # 'd' for digital, 13 for pin number, 'o' for output

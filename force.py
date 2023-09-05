@@ -3,7 +3,7 @@ import time
 
 # Initialize the board
 # Replace '/dev/ttyUSB0' with the appropriate port for your system
-board = Arduino('/dev/tty.usbmodem21401')
+board = Arduino('/dev/tty.usbmodem21301')
 
 # Start an iterator thread so that the serial buffer doesn't overflow
 it = util.Iterator(board)
@@ -22,7 +22,9 @@ time.sleep(1)
 while True:
     fsr_reading = fsr_pin.read()
     if fsr_reading is not None:
-        scaled_value = fsr_reading * 255  # Scale the reading to a value between 0 and 255
-        led_pin.write(scaled_value)  # Control the LED brightness
+        # Ensure the scaled_value is within 0-255
+        scaled_value = min(max(int(fsr_reading * 255), 0), 255)
+        # pyFirmata expects a value between 0 and 1 for PWM
+        led_pin.write(scaled_value / 255.0)
         print(f"FSR reading: {fsr_reading}, Scaled value: {scaled_value}")
     time.sleep(0.04)  # Approximately 25 Hz (1/0.04 = 25)
